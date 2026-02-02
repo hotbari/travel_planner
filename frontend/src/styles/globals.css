@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #1f2937;
+  --accent-cyan: #00d4ff;
+  --accent-pink: #ff6b9d;
+  --accent-purple: #c4b5fd;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: #f3f4f6;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Glow effects */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, transparent 40%, var(--accent-cyan) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.glow-border:hover::before {
+  opacity: 0.6;
+}
+
+/* Card styles */
+.card-steam {
+  @apply relative rounded-lg p-4 overflow-hidden;
+  @apply border border-white/10;
+  @apply bg-gradient-to-b from-slate-800/90 to-slate-900/90;
+  @apply backdrop-blur-sm;
+}
+
+/* Corner decorations */
+.card-steam::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.3) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0, 212, 255, 0.3) 100%
+  ) 1;
+}
+
+/* Button base */
+.btn-primary {
+  @apply relative px-4 py-2 rounded-lg font-medium;
+  @apply bg-gradient-to-b from-accent-cyan to-cyan-600;
+  @apply text-white shadow-lg shadow-cyan-500/25;
+  @apply hover:shadow-cyan-500/40 hover:from-cyan-400 hover:to-cyan-500;
+  @apply border border-cyan-400/50;
+  @apply transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-cyan-500/50;
+}
+
+.btn-secondary {
+  @apply relative px-4 py-2 rounded-lg font-medium;
+  @apply bg-slate-700/80 text-slate-200;
+  @apply border border-slate-600/50;
+  @apply hover:bg-slate-600/80 hover:border-slate-500/50;
+  @apply transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-slate-500/50;
+}
+
+/* Input styles */
+.input-field {
+  @apply w-full px-4 py-2 rounded-lg;
+  @apply bg-slate-800/80 text-white;
+  @apply border border-slate-600/50;
+  @apply placeholder-slate-500;
+  @apply focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50;
+  @apply transition-all duration-200;
+}
+
+/* Pixel-style loading bar */
+@keyframes pixel-load {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.pixel-loading-bar {
+  height: 4px;
+  background: var(--accent-cyan);
+  image-rendering: pixelated;
+  animation: pixel-load 1s steps(10) infinite;
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 1s steps(20) forwards;
+}
+
+/* Drag state */
+.dragging {
+  transform: scale(1.02) rotate(1deg);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 212, 255, 0.2);
+  z-index: 1000;
+}
