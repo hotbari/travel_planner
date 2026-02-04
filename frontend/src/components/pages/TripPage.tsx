@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Hotel, MapPin, Plus, Calendar, Route, Wand2 } from 'lucide-react'
@@ -10,6 +10,7 @@ import { PlaceSearch } from '../places/PlaceSearch'
 import { PlaceList } from '../places/PlaceList'
 import { ItineraryBoard } from '../itinerary/ItineraryBoard'
 import { AccommodationForm } from '../trip/AccommodationForm'
+import { ExportButton } from '../export/ExportButton'
 
 type Tab = 'places' | 'itinerary'
 
@@ -25,6 +26,7 @@ export function TripPage() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<Tab>('places')
   const [showAccommodationForm, setShowAccommodationForm] = useState(false)
+  const timelineRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (tripId) {
@@ -150,14 +152,23 @@ export function TripPage() {
                 </span>
               </div>
             </div>
-            <Button
-              onClick={handleGenerateItinerary}
-              variant="primary"
-              disabled={places.length === 0}
-            >
-              <Wand2 className="w-4 h-4 mr-2" />
-              Generate Itinerary
-            </Button>
+            <div className="flex items-center gap-3">
+              <ExportButton
+                tripName={trip.name}
+                startDate={trip.start_date}
+                endDate={trip.end_date}
+                countryName={trip.country?.name || 'Unknown'}
+                timelineRef={timelineRef}
+              />
+              <Button
+                onClick={handleGenerateItinerary}
+                variant="primary"
+                disabled={places.length === 0}
+              >
+                <Wand2 className="w-4 h-4 mr-2" />
+                Generate Itinerary
+              </Button>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -263,11 +274,15 @@ export function TripPage() {
             </div>
           </div>
         ) : (
-          <ItineraryBoard
-            trip={trip}
-            itinerary={itinerary}
-            setItinerary={setItinerary}
-          />
+          <div ref={timelineRef}>
+            <ItineraryBoard
+              trip={trip}
+              itinerary={itinerary}
+              setItinerary={setItinerary}
+              places={places}
+              onReload={loadTrip}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -5,6 +5,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     database_url: str = "sqlite:///./data/travel_planner.db"
     openai_api_key: str = ""
+    google_maps_api_key: str = ""
     environment: str = "development"
     default_language: str = "ko"
 

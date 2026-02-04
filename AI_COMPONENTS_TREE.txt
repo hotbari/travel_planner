@@ -1,0 +1,144 @@
+AI Components - Component Tree
+
+Trip Planning Page
+│
+├── AIModeSelector
+│   │
+│   ├── Button: "Optimize Only"
+│   │   └── Icon: Zap
+│   │
+│   └── Button: "Suggest + Optimize"
+│       └── Icon: Sparkles
+│
+├── AIOptimizeButton
+│   │
+│   ├── Icon: Sparkles / Loader2
+│   ├── Text: "Get AI Suggestion" / "Optimizing..."
+│   │
+│   └── Error Display (conditional)
+│       ├── Icon: AlertCircle
+│       └── Message + Countdown
+│
+└── AIPreviewPanel (when status === 'preview')
+    │
+    ├── Header (fixed)
+    │   ├── Icon Badge: Sparkles
+    │   ├── Title: "AI Optimization Preview"
+    │   └── Close Button: X
+    │
+    ├── Content (scrollable)
+    │   │
+    │   ├── AI Reasoning Box
+    │   │   ├── Icon: AlertCircle
+    │   │   └── Text: previewData.reasoning
+    │   │
+    │   ├── AISuggestionList (conditional: if suggested_places.length > 0)
+    │   │   │
+    │   │   ├── Header
+    │   │   │   ├── Icon: Sparkles
+    │   │   │   ├── Title: "AI Recommendations"
+    │   │   │   └── Count: "X of Y selected"
+    │   │   │
+    │   │   ├── Info Banner
+    │   │   │   ├── Icon: Info
+    │   │   │   └── Text: "Click on cards to toggle..."
+    │   │   │
+    │   │   ├── AISuggestionCard (for each suggestion)
+    │   │   │   │
+    │   │   │   ├── Selection Indicator
+    │   │   │   │   └── Icon: CheckCircle2 (if selected)
+    │   │   │   │
+    │   │   │   ├── Name + Category Badge
+    │   │   │   │
+    │   │   │   ├── Details
+    │   │   │   │   ├── Icon: MapPin + Coordinates
+    │   │   │   │   └── Icon: Clock + Duration
+    │   │   │   │
+    │   │   │   └── AI Reasoning
+    │   │   │       ├── Icon: Info
+    │   │   │       └── Text: place.reason
+    │   │   │
+    │   │   └── Quick Actions
+    │   │       ├── Button: "Select All"
+    │   │       └── Button: "Deselect All"
+    │   │
+    │   └── AIPreviewDiff
+    │       │
+    │       ├── Header: "Route Preview"
+    │       │
+    │       └── For each day
+    │           │
+    │           ├── Day Badge: "Day N"
+    │           │
+    │           └── For each place
+    │               │
+    │               ├── Sequence Number: 1 2 3
+    │               ├── Connecting Line (if not last)
+    │               │
+    │               └── Place Card
+    │                   ├── Name
+    │                   ├── Category
+    │                   ├── Icon: Clock + Duration
+    │                   └── Border + Hover Effect
+    │
+    └── Footer (fixed)
+        │
+        ├── Button: "Cancel"
+        └── Button: "Apply Optimization"
+            └── Icon: CheckCircle
+
+
+Component States
+
+AIModeSelector:
+  - default: Both buttons inactive style
+  - optimize_only: Left button active (gradient + corners)
+  - suggest_and_optimize: Right button active (gradient + corners)
+
+AIOptimizeButton:
+  - idle: Gradient + shimmer effect
+  - loading: Spinner + "Optimizing..." + no shimmer
+  - error: Inline error box below button
+  - disabled: Muted colors + no interactions
+
+AISuggestionCard:
+  - unselected: Slate border + hover glow
+  - selected: Sky blue border + shadow + checkmark + corners
+  - hover: Subtle background gradient
+
+AIPreviewPanel:
+  - closed: Not rendered
+  - opening: Backdrop fade + panel slide from right
+  - open: Fully visible, interactive
+  - closing: Reverse animation
+
+
+Animation Timeline
+
+T+0ms:    User clicks "Get AI Suggestion"
+T+0ms:    Button shimmer stops, spinner appears
+T+....:   API call processing
+T+300ms:  Backdrop fades in (opacity 0 to 1)
+T+300ms:  Panel starts sliding from right
+T+800ms:  Panel fully visible (spring settles)
+T+800ms:  AI reasoning box fades in
+T+850ms:  First suggestion card appears
+T+900ms:  Second suggestion card appears
+T+950ms:  Third suggestion card appears (staggered)
+T+1000ms: Route preview Day 1 header appears
+T+1100ms: Route preview Day 1 places stagger in
+T+1200ms: Route preview Day 2 header appears
+T+1300ms: All animations complete, ready for interaction
+
+
+File Size Breakdown
+
+Component                Lines    % of Total
+AIPreviewPanel.tsx       165      23.1%
+AIPreviewDiff.tsx        120      16.8%
+AISuggestionCard.tsx     118      16.5%
+AIModeSelector.tsx       115      16.1%
+AISuggestionList.tsx     102      14.3%
+AIOptimizeButton.tsx      87      12.2%
+index.ts                   6       0.8%
+TOTAL                    713     100.0%

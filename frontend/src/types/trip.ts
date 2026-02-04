@@ -2,6 +2,7 @@ export interface Country {
   id: number
   code: string
   name: string
+  name_ko?: string
   local_name?: string
   greeting: string
   timezone: string
@@ -16,6 +17,7 @@ export interface Trip {
   end_date: string
   num_nights: number
   num_days: number
+  preferred_transport_mode?: string
   notes?: string
   created_at: string
   updated_at: string
@@ -33,10 +35,9 @@ export interface Accommodation {
   id: number
   trip_id: number
   name: string
-  address: string
+  address?: string
   latitude: number
   longitude: number
-  google_place_id?: string
   check_in_time: string
   check_out_time: string
   notes?: string
@@ -47,11 +48,11 @@ export interface Place {
   id: number
   trip_id: number
   name: string
-  address: string
+  address?: string
   latitude: number
   longitude: number
-  google_place_id?: string
   estimated_duration_minutes: number
+  estimated_cost?: number
   business_hours?: string
   open_days?: string
   category?: string
@@ -59,16 +60,6 @@ export interface Place {
   notes?: string
   created_at: string
   updated_at: string
-}
-
-export interface PlaceSearchResult {
-  place_id: string
-  name: string
-  address: string
-  latitude: number
-  longitude: number
-  types: string[]
-  rating?: number
 }
 
 export interface ItineraryItem {
@@ -96,3 +87,33 @@ export interface DaySchedule {
   day_type: 'arrival' | 'middle' | 'departure'
   items: ItineraryItem[]
 }
+
+export interface RouteResult {
+  distance_meters: number
+  duration_minutes: number
+  polyline?: string
+  estimated?: boolean
+}
+
+export interface BatchRouteResult {
+  routes: Array<{
+    from_index: number
+    to_index: number
+    distance_meters: number
+    duration_minutes: number
+    polyline?: string
+  }>
+  total_distance_meters: number
+  total_duration_minutes: number
+}
+
+export interface PlaceSearchResult {
+  place_id: string
+  name: string
+  latitude: number
+  longitude: number
+  address?: string
+  types?: string[]
+  rating?: number
+}
+

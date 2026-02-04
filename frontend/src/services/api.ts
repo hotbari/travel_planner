@@ -4,10 +4,13 @@ import {
   Trip,
   TripCreate,
   Place,
-  PlaceSearchResult,
   Accommodation,
   DaySchedule,
+  RouteResult,
+  BatchRouteResult,
+  PlaceSearchResult,
 } from '../types/trip'
+import type { SuggestedPlace } from '../types/ai'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -99,17 +102,6 @@ export const api = {
     await client.delete(`/places/${id}`)
   },
 
-  async searchPlaces(
-    query: string,
-    location?: { lat: number; lng: number }
-  ): Promise<PlaceSearchResult[]> {
-    const { data } = await client.post('/places/search', {
-      query,
-      location,
-      radius: 50000,
-    })
-    return data
-  },
 
   // Itinerary
   async getItinerary(tripId: number): Promise<DaySchedule[]> {
@@ -149,5 +141,62 @@ export const api = {
       new_sequence: newSequence,
       recalculate_routes: true,
     })
+  },
+
+  // Routes
+  async calculateRoute(
+    origin: { lat: number; lng: number },
+    destination: { lat: number; lng: number },
+    mode: string
+  ): Promise<RouteResult> {
+    const { data } = await client.post('/routes/calculate', {
+      origin,
+      destination,
+      mode,
+    })
+    return data
+  },
+
+  async calculateBatchRoutes(
+    waypoints: Array<{ lat: number; lng: number }>,
+    mode: string
+  ): Promise<BatchRouteResult> {
+    const { data } = await client.post('/routes/batch', {
+      waypoints,
+      mode,
+    })
+    return data
+  },
+
+  // AI Optimization
+  async optimizeItinerary(
+    tripId: number,
+    mode: 'optimize_only' | 'suggest_and_optimize'
+  ) {
+    const { data } = await client.post('/ai/optimize', {
+      trip_id: tripId,
+      mode,
+    })
+    return data
+  },
+
+  async applyOptimization(
+    tripId: number,
+    optimizedOrder: number[],
+    dayAssignments: Record<string, number[]>,
+    acceptedSuggestions?: SuggestedPlace[]
+  ) {
+    const { data } = await client.post('/ai/apply', {
+      trip_id: tripId,
+      optimized_order: optimizedOrder,
+      day_assignments: dayAssignments,
+      accepted_suggestions: acceptedSuggestions,
+    })
+    return data
+  },
+
+  async searchPlaces(query: string): Promise<PlaceSearchResult[]> {
+    // Placeholder implementation - actual search would use a geocoding service
+    return []
   },
 }

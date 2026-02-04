@@ -1,23 +1,34 @@
 import { motion } from 'framer-motion'
-import { format } from 'date-fns'
-import { Calendar, Loader2 } from 'lucide-react'
-import { Trip, DaySchedule } from '../../types/trip'
+import { Calendar } from 'lucide-react'
+import { Trip, DaySchedule, Place } from '../../types/trip'
 import { DayColumn } from './DayColumn'
 import { Card } from '../common/Card'
+import { AIModeSelector, AIOptimizeButton, AIPreviewPanel } from '../ai'
+import { useAIStore } from '../../stores/aiStore'
 
 interface ItineraryBoardProps {
   trip: Trip
   itinerary: DaySchedule[]
   setItinerary: (itinerary: DaySchedule[]) => void
+  places: Place[]
+  onReload: () => void
 }
 
-export function ItineraryBoard({ trip, itinerary, setItinerary }: ItineraryBoardProps) {
+export function ItineraryBoard({ trip, itinerary, setItinerary, places, onReload }: ItineraryBoardProps) {
+  const { status, applyOptimization } = useAIStore()
+
   const handleReorder = (dayNumber: number, newItems: DaySchedule['items']) => {
     setItinerary(
       itinerary.map((day) =>
         day.day_number === dayNumber ? { ...day, items: newItems } : day
       )
     )
+  }
+
+  const handleAIApply = async () => {
+    await applyOptimization(trip.id)
+    // Reload itinerary from parent
+    onReload()
   }
 
   if (itinerary.length === 0) {
@@ -33,7 +44,20 @@ export function ItineraryBoard({ trip, itinerary, setItinerary }: ItineraryBoard
   }
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-6">
+      {/* AI Controls Section */}
+      <div className="space-y-4">
+        <h3 className="text-sm font-pixel text-accent-cyan">
+          AI OPTIMIZATION
+        </h3>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex-1">
+            <AIModeSelector />
+          </div>
+          <AIOptimizeButton tripId={trip.id} />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-pixel text-accent-cyan">
@@ -63,6 +87,14 @@ export function ItineraryBoard({ trip, itinerary, setItinerary }: ItineraryBoard
           </motion.div>
         ))}
       </div>
+
+      {/* AI Preview Panel Overlay */}
+      {status === 'preview' && (
+        <AIPreviewPanel
+          places={places}
+          onApply={handleAIApply}
+        />
+      )}
     </div>
   )
 }

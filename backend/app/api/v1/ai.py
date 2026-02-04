@@ -7,7 +7,9 @@ from app.db.database import get_db
 from app.models.trip import Trip as TripModel
 from app.models.place import Place as PlaceModel
 from app.models.accommodation import Accommodation as AccommodationModel
+from app.models.itinerary import ItineraryItem as ItineraryItemModel
 from app.services.openai_service import openai_service
+from app.middleware.rate_limiter import limiter
 
 router = APIRouter()
 
@@ -36,10 +38,12 @@ class OptimizeResponse(BaseModel):
 class ApplyRequest(BaseModel):
     trip_id: int
     optimized_order: List[int]
-    day_assignments: Dict[str, List[int]]
+    day_assignments: Optional[Dict[str, List[int]]] = None
+    accepted_suggestions: Optional[List[Dict[str, Any]]] = None  # List of suggested places to add
 
 
 @router.post("/optimize", response_model=OptimizeResponse)
+@limiter.limit("5/minute")
 async def optimize_itinerary(request: OptimizeRequest, db: Session = Depends(get_db)):
     """Get AI-generated itinerary optimization suggestion."""
 
@@ -122,7 +126,46 @@ async def apply_optimization(request: ApplyRequest, db: Session = Depends(get_db
     if not trip:
         raise HTTPException(status_code=404, detail="Trip not found")
 
-    # Update place priorities based on optimized order
+    added_place_ids = []
+
+    # Step 1: Create places from accepted_suggestions
+    if request.accepted_suggestions:
+        for suggestion in request.accepted_suggestions:
+            # Validate suggestion has required fields
+            if not all(k in suggestion for k in ["name", "latitude", "longitude"]):
+                raise HTTPException(
+                    status_code=400,
+                    detail="Each suggestion must have name, latitude, and longitude"
+                )
+
+            # Create new place
+            new_place = PlaceModel(
+                trip_id=request.trip_id,
+                name=suggestion["name"],
+                latitude=suggestion["latitude"],
+                longitude=suggestion["longitude"],
+                estimated_duration_minutes=suggestion.get("estimated_duration_minutes", 60),
+                category=suggestion.get("category", "attraction"),
+                notes=f"AI suggested: {suggestion.get('reason', '')}"
+            )
+            db.add(new_place)
+            db.flush()  # Get the ID
+            added_place_ids.append(new_place.id)
+
+    # Step 2: Validate all place_ids exist (both optimized_order and added places)
+    all_place_ids = set(request.optimized_order)
+    for place_id in all_place_ids:
+        place = db.query(PlaceModel).filter(
+            PlaceModel.id == place_id,
+            PlaceModel.trip_id == request.trip_id
+        ).first()
+        if not place:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Place {place_id} not found in trip"
+            )
+
+    # Step 3: Update place priorities based on optimized order
     for index, place_id in enumerate(request.optimized_order):
         place = db.query(PlaceModel).filter(
             PlaceModel.id == place_id,
@@ -131,9 +174,43 @@ async def apply_optimization(request: ApplyRequest, db: Session = Depends(get_db
         if place:
             place.priority = len(request.optimized_order) - index  # Higher priority first
 
+    # Step 4: Handle day_assignments - create or update itinerary items
+    if request.day_assignments:
+        for day_str, place_ids in request.day_assignments.items():
+            day_number = int(day_str)
+
+            for seq_order, place_id in enumerate(place_ids):
+                # Find existing itinerary item for this place and trip
+                item = db.query(ItineraryItemModel).filter(
+                    ItineraryItemModel.trip_id == request.trip_id,
+                    ItineraryItemModel.place_id == place_id
+                ).first()
+
+                if item:
+                    # Update existing item
+                    item.day_number = day_number
+                    item.sequence_order = seq_order
+                else:
+                    # Create new itinerary item
+                    # For now, use placeholder times - frontend should update these
+                    from datetime import time
+                    start_time = time(9, 0)  # Default 9:00 AM start
+
+                    new_item = ItineraryItemModel(
+                        trip_id=request.trip_id,
+                        place_id=place_id,
+                        day_number=day_number,
+                        sequence_order=seq_order,
+                        item_type='place',
+                        start_time=start_time
+                    )
+                    db.add(new_item)
+
     db.commit()
 
     return {
-        "message": "Optimization applied",
-        "optimized_count": len(request.optimized_order)
+        "message": "Optimization applied successfully",
+        "optimized_count": len(request.optimized_order),
+        "added_places": added_place_ids,
+        "day_assignments_applied": bool(request.day_assignments)
     }

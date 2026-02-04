@@ -39,7 +39,6 @@ export function AccommodationForm({ onSubmit, onCancel }: AccommodationFormProps
       address: selectedPlace.address,
       latitude: selectedPlace.latitude,
       longitude: selectedPlace.longitude,
-      google_place_id: selectedPlace.place_id,
       check_in_time: checkInTime,
       check_out_time: checkOutTime,
     })

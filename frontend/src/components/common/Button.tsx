@@ -25,7 +25,7 @@ export function Button({
   }
 
   const variantClasses = {
-    primary: 'bg-gradient-to-b from-accent-cyan to-cyan-600 text-white shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:from-cyan-400 hover:to-cyan-500 border border-cyan-400/50 focus:ring-cyan-500/50',
+    primary: 'bg-gradient-to-b from-accent-primary to-sky-600 text-white shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 hover:from-sky-400 hover:to-sky-500 border border-sky-400/50 focus:ring-sky-500/50',
     secondary: 'bg-slate-700/80 text-slate-200 border border-slate-600/50 hover:bg-slate-600/80 hover:border-slate-500/50 focus:ring-slate-500/50',
     ghost: 'bg-transparent text-slate-300 hover:bg-white/5 hover:text-white focus:ring-white/20',
     danger: 'bg-gradient-to-b from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 border border-red-400/50 focus:ring-red-500/50',

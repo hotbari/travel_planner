@@ -5,7 +5,6 @@ import { Plus, MapPin, Calendar, Plane } from 'lucide-react'
 import { api } from '../../services/api'
 import { Trip } from '../../types/trip'
 import { Card } from '../common/Card'
-import { Button } from '../common/Button'
 
 export function HomePage() {
   const [trips, setTrips] = useState<Trip[]>([])

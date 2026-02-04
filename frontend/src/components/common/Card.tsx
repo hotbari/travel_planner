@@ -19,9 +19,9 @@ export function Card({
 
   const variantClasses = {
     default: 'bg-gradient-to-b from-slate-800/90 to-slate-900/90 border-white/10',
-    inventory: 'bg-slate-800/80 border-2 border-slate-600/50 shadow-inner shadow-black/30 hover:border-cyan-500/50 transition-colors duration-200',
-    quest: 'bg-gradient-to-r from-slate-800/90 to-slate-900/90 border-l-4 border-l-accent-cyan border-white/10 pl-6',
-    hud: 'bg-black/60 border-accent-cyan/30 font-mono text-sm',
+    inventory: 'bg-slate-800/80 border-2 border-slate-600/50 shadow-inner shadow-black/30 hover:border-sky-500/50 transition-colors duration-200',
+    quest: 'bg-gradient-to-r from-slate-800/90 to-slate-900/90 border-l-4 border-l-accent-primary border-white/10 pl-6',
+    hud: 'bg-black/60 border-accent-primary/30 font-mono text-sm',
   }
 
   return (
@@ -39,10 +39,10 @@ export function Card({
       {children}
 
       {/* Corner decorations */}
-      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent-cyan/50" />
-      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent-cyan/50" />
-      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent-cyan/50" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent-cyan/50" />
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent-primary/50" />
+      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent-primary/50" />
+      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent-primary/50" />
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent-primary/50" />
     </motion.div>
   )
 }

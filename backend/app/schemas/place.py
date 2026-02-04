@@ -1,6 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import datetime
 from typing import Optional
+import json
 
 
 class PlaceBase(BaseModel):
@@ -13,6 +14,24 @@ class PlaceBase(BaseModel):
     category: Optional[str] = None
     priority: int = 0
     notes: Optional[str] = None
+
+    @field_validator('business_hours')
+    @classmethod
+    def validate_business_hours(cls, v):
+        if v is None:
+            return None
+        try:
+            data = json.loads(v)
+            valid_days = {'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'}
+            for day, hours in data.items():
+                if day not in valid_days:
+                    raise ValueError(f'Invalid day: {day}')
+                if hours is not None:
+                    if 'open' not in hours or 'close' not in hours:
+                        raise ValueError(f'Missing open/close for {day}')
+            return v
+        except json.JSONDecodeError:
+            raise ValueError('business_hours must be valid JSON')
 
 
 class PlaceCreate(PlaceBase):
@@ -39,3 +58,10 @@ class Place(PlaceBase):
 
     class Config:
         from_attributes = True
+
+
+class PlaceSearch(BaseModel):
+    """Schema for searching places via Google Maps API."""
+    query: str
+    location: Optional[dict] = None  # {"lat": float, "lng": float}
+    radius: Optional[int] = 5000  # meters

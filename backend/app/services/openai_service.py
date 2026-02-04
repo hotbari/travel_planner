@@ -15,6 +15,20 @@ class OpenAIService:
         if not self.client:
             raise ValueError("OpenAI API key not configured")
 
+    def _format_business_hours(self, hours_json: Optional[str]) -> str:
+        """Parse and format business hours for AI prompt"""
+        if not hours_json:
+            return "Hours unknown"
+        try:
+            hours = json.loads(hours_json)
+            parts = []
+            for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']:
+                if day in hours and hours[day]:
+                    parts.append(f"{day.capitalize()}: {hours[day]['open']}-{hours[day]['close']}")
+            return ", ".join(parts) if parts else "Hours unknown"
+        except:
+            return hours_json  # Fallback to raw string
+
     async def optimize_itinerary(
         self,
         country: str,
@@ -46,9 +60,10 @@ class OpenAIService:
         # Build places description
         places_desc = []
         for p in places:
+            business_hours = self._format_business_hours(p.get('business_hours'))
             hours_info = ""
-            if p.get("business_hours"):
-                hours_info = f", Business hours: {p['business_hours']}"
+            if business_hours != "Hours unknown":
+                hours_info = f", Business hours: {business_hours}"
             places_desc.append(
                 f"- ID {p['id']}: {p['name']} at ({p['latitude']}, {p['longitude']}), "
                 f"Duration: {p['estimated_duration_minutes']} min{hours_info}"

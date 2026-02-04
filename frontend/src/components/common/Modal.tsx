@@ -48,10 +48,10 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
               <div className="p-4">{children}</div>
 
               {/* Corner decorations */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent-cyan/50 rounded-tl-lg" />
-              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-accent-cyan/50 rounded-tr-lg" />
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-accent-cyan/50 rounded-bl-lg" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent-cyan/50 rounded-br-lg" />
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent-primary/50 rounded-tl-lg" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-accent-primary/50 rounded-tr-lg" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-accent-primary/50 rounded-bl-lg" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent-primary/50 rounded-br-lg" />
             </div>
           </motion.div>
         </>

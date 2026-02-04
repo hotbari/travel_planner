@@ -1,0 +1,117 @@
+{
+  "common": {
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "수정",
+    "add": "추가",
+    "close": "닫기",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "success": "성공"
+  },
+  "nav": {
+    "home": "홈",
+    "newTrip": "새 여행",
+    "settings": "설정"
+  },
+  "trip": {
+    "create": "여행 만들기",
+    "delete": "여행 삭제",
+    "export": "PDF 내보내기",
+    "name": "여행 이름",
+    "country": "국가",
+    "startDate": "시작일",
+    "endDate": "종료일",
+    "transport": "이동 수단",
+    "notes": "메모",
+    "days": "일",
+    "nights": "박"
+  },
+  "transport": {
+    "walk": "도보",
+    "transit": "대중교통",
+    "drive": "자동차",
+    "bike": "자전거"
+  },
+  "place": {
+    "add": "장소 추가",
+    "name": "장소 이름",
+    "duration": "소요 시간 (분)",
+    "cost": "예상 비용",
+    "category": "카테고리",
+    "businessHours": "영업 시간",
+    "notes": "메모",
+    "clickToAdd": "지도를 클릭하여 장소를 추가하세요"
+  },
+  "itinerary": {
+    "generate": "일정 생성",
+    "aiSuggest": "AI 추천 받기",
+    "apply": "적용",
+    "dismiss": "취소",
+    "day": "일차",
+    "arrival": "도착일",
+    "departure": "출발일"
+  },
+  "ai": {
+    "mode": {
+      "optimizeOnly": "최적화만",
+      "suggestAndOptimize": "추천 + 최적화",
+      "optimizeOnlyDesc": "기존 장소 순서를 효율적으로 재배치",
+      "suggestOptimizeDesc": "AI 추천 장소 추가 및 순서 최적화"
+    },
+    "button": {
+      "getSuggestion": "AI 추천 받기",
+      "optimizing": "최적화 중...",
+      "apply": "변경사항 적용",
+      "cancel": "취소",
+      "applying": "적용 중..."
+    },
+    "preview": {
+      "title": "AI 최적화 미리보기",
+      "reasoning": "AI 분석",
+      "currentRoute": "현재 경로",
+      "optimizedRoute": "최적화된 경로",
+      "suggestions": "추천 장소",
+      "noSuggestions": "추천 장소 없음",
+      "selectAll": "전체 선택",
+      "deselectAll": "전체 해제"
+    },
+    "errors": {
+      "network": "네트워크 오류. 연결을 확인하세요.",
+      "notFound": "여행을 찾을 수 없습니다",
+      "noPlaces": "최적화하기 전에 장소를 추가하세요",
+      "rateLimited": "{seconds}초 후에 다시 시도하세요",
+      "aiError": "AI 최적화에 실패했습니다. 다시 시도하세요.",
+      "applyFailed": "최적화 적용에 실패했습니다"
+    }
+  },
+  "export": {
+    "button": "PDF 내보내기",
+    "exporting": "PDF 생성 중...",
+    "success": "PDF 내보내기 성공",
+    "error": "PDF 내보내기 실패"
+  },
+  "route": {
+    "estimated": "추정",
+    "estimatedTooltip": "실제 경로를 사용할 수 없음 - 거리 추정 사용 중",
+    "fallbackWarning": "경로 계산을 사용할 수 없음 - 추정치 사용 중"
+  },
+  "accommodation": {
+    "title": "숙소",
+    "name": "숙소 이름",
+    "checkIn": "체크인 시간",
+    "checkOut": "체크아웃 시간"
+  },
+  "empty": {
+    "noTrips": "여행이 없습니다",
+    "noTripsDesc": "첫 번째 여행을 만들어 보세요!",
+    "noPlaces": "장소가 없습니다",
+    "noPlacesDesc": "지도를 클릭하여 방문할 장소를 추가하세요"
+  },
+  "status": {
+    "withinHours": "영업 시간 내",
+    "nearClosing": "마감 임박",
+    "outsideHours": "영업 시간 외"
+  }
+}

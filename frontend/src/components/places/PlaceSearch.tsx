@@ -48,7 +48,6 @@ export function PlaceSearch({ onAddPlace }: PlaceSearchProps) {
       address: selectedPlace.address,
       latitude: selectedPlace.latitude,
       longitude: selectedPlace.longitude,
-      google_place_id: selectedPlace.place_id,
       estimated_duration_minutes: duration,
       category: selectedPlace.types?.[0] || undefined,
       priority: 0,

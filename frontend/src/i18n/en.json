@@ -1,0 +1,117 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success"
+  },
+  "nav": {
+    "home": "Home",
+    "newTrip": "New Trip",
+    "settings": "Settings"
+  },
+  "trip": {
+    "create": "Create Trip",
+    "delete": "Delete Trip",
+    "export": "Export PDF",
+    "name": "Trip Name",
+    "country": "Country",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "transport": "Transport Mode",
+    "notes": "Notes",
+    "days": "days",
+    "nights": "nights"
+  },
+  "transport": {
+    "walk": "Walk",
+    "transit": "Transit",
+    "drive": "Drive",
+    "bike": "Bike"
+  },
+  "place": {
+    "add": "Add Place",
+    "name": "Place Name",
+    "duration": "Duration (minutes)",
+    "cost": "Estimated Cost",
+    "category": "Category",
+    "businessHours": "Business Hours",
+    "notes": "Notes",
+    "clickToAdd": "Click on map to add a place"
+  },
+  "itinerary": {
+    "generate": "Generate Itinerary",
+    "aiSuggest": "Get AI Suggestion",
+    "apply": "Apply",
+    "dismiss": "Dismiss",
+    "day": "Day",
+    "arrival": "Arrival Day",
+    "departure": "Departure Day"
+  },
+  "ai": {
+    "mode": {
+      "optimizeOnly": "Optimize Only",
+      "suggestAndOptimize": "Suggest + Optimize",
+      "optimizeOnlyDesc": "Reorder existing places for efficiency",
+      "suggestOptimizeDesc": "Add AI recommendations and optimize order"
+    },
+    "button": {
+      "getSuggestion": "Get AI Suggestion",
+      "optimizing": "Optimizing...",
+      "apply": "Apply Changes",
+      "cancel": "Cancel",
+      "applying": "Applying..."
+    },
+    "preview": {
+      "title": "AI Optimization Preview",
+      "reasoning": "AI Reasoning",
+      "currentRoute": "Current Route",
+      "optimizedRoute": "Optimized Route",
+      "suggestions": "Suggested Places",
+      "noSuggestions": "No new places suggested",
+      "selectAll": "Select All",
+      "deselectAll": "Deselect All"
+    },
+    "errors": {
+      "network": "Network error. Please check your connection.",
+      "notFound": "Trip not found",
+      "noPlaces": "Add some places to your trip before optimizing",
+      "rateLimited": "Please wait {seconds} seconds before optimizing again",
+      "aiError": "AI optimization failed. Please try again.",
+      "applyFailed": "Failed to apply optimization"
+    }
+  },
+  "export": {
+    "button": "Export PDF",
+    "exporting": "Generating PDF...",
+    "success": "PDF exported successfully",
+    "error": "Failed to export PDF"
+  },
+  "route": {
+    "estimated": "Est.",
+    "estimatedTooltip": "Using distance estimate - actual route unavailable",
+    "fallbackWarning": "Route calculation unavailable - using estimates"
+  },
+  "accommodation": {
+    "title": "Accommodation",
+    "name": "Hotel/Accommodation Name",
+    "checkIn": "Check-in Time",
+    "checkOut": "Check-out Time"
+  },
+  "empty": {
+    "noTrips": "No trips yet",
+    "noTripsDesc": "Create your first trip to get started!",
+    "noPlaces": "No places added",
+    "noPlacesDesc": "Click on the map to add places to visit"
+  },
+  "status": {
+    "withinHours": "Within business hours",
+    "nearClosing": "Near closing time",
+    "outsideHours": "Outside business hours"
+  }
+}
